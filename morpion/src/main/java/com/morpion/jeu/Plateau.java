@@ -2,7 +2,7 @@ package com.morpion.jeu;
 
 import java.util.ArrayList;
 
-public class Plateau {  
+public class Plateau implements Cloneable {  
         private Matrice plateau;
         private Player_value value_player_one = Player_value.playerOne;//J1
         private Player_value value_player_two = Player_value.playerTwo;//J2
@@ -35,7 +35,15 @@ public class Plateau {
     private void isWin() {
         int taille = this.taille_jeu;
         check_ligne(taille);
+        //Si on a trouver un gagnant, on économise du temps
+        if (this.gagnant != Player_value.noPlayer) {
+            return;
+        }
         check_colonne(taille);
+        //même chose que précedement
+        if (this.gagnant != Player_value.noPlayer) {
+            return;
+        }
         check_diagonale(taille);
     }
 
@@ -77,8 +85,61 @@ public class Plateau {
     }
 
     private void check_diagonale(int taille){
+        ArrayList<Player_value> ligne = this.plateau.matrice.get(0);
+        Player_value joueur = ligne.get(0);
+        boolean conflit =false;
+        if (joueur != Player_value.noPlayer) {
+
+            for (int i = 1; i < taille && conflit == true; i++) {
+                ArrayList<Player_value> ligneSuivante = this.plateau.matrice.get(i);
+                Player_value joueurCase = ligneSuivante.get(i);
+                if (joueurCase != Player_value.noPlayer && joueurCase == joueur) {
+                    continue;
+                }
+                else{
+                    conflit = true;
+                }
+            }    
+        }
+        if (conflit==false) {
+            this.gagnant = joueur;
+            return;//On a touver une victoire, pas beson de continuer
+        }
+
+        joueur = ligne.get(taille-1);
+        conflit =false;
+        if (joueur != Player_value.noPlayer) {
+
+            for (int i = 1; i < taille && conflit == true; i++) {
+                ArrayList<Player_value> ligneSuivante = this.plateau.matrice.get(i);
+                Player_value joueurCase = ligneSuivante.get((taille-1)-i);
+                if (joueurCase != Player_value.noPlayer && joueurCase == joueur) {
+                    continue;
+                }
+                else{
+                    conflit = true;
+                }
+        }
+
+        if (conflit==false) {
+            this.gagnant = joueur;
+            return;//On a touver une victoire, pas beson de continuer
+        }
+        
         
           
+        }
+    }
+
+    @Override
+    public Plateau clone() {
+        try {
+            return (Plateau) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // Si la classe ne supporte pas le clonage, une exception sera levée.
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
