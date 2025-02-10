@@ -7,7 +7,7 @@ import com.morpion.jeu.Player_value;
 
 public class Arbre {
     private Plateau sommet;
-    private ArrayList<Arbre> possibilite;
+    private ArrayList<Arbre> possibilite = new ArrayList<>();
     private Player_value joueur;
     private Player_value prochain_joueur;
 
@@ -23,6 +23,8 @@ public class Arbre {
 
         this.sommet = base;
         construction_arbre();
+
+        
         
     }
 
@@ -30,16 +32,41 @@ public class Arbre {
         int taille = this.sommet.getTaille();
         for (int x = 0; x < taille; x++) {
             for (int y = 0; y < taille; y++) {
-                Plateau node = this.sommet.clone();
+                Plateau node;
+                try {
+                    node = this.sommet.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                    return;
+                }
                 boolean possible = node.nouveau_coup(x,y,this.joueur);
                 if (possible) {
                     Arbre feuille = new Arbre(node, this.prochain_joueur);
-                    possibilite.add(feuille);
-                    //this.possibilite.add(node);
+                    //System.out.println(feuille.sommet.toString());
+                    this.possibilite.add(feuille);
                 }
             }
         }
 
+    }
+
+    public Object getSommet() {
+        return this.sommet;
+    }
+
+    public ArrayList<Arbre> getPossibilite() {
+            return possibilite;
+        
+    }
+
+     @Override
+    public String toString() {
+        return "Arbre{" +
+                "sommet=" + sommet +
+                ", possibilite=" + possibilite +
+                ", joueur=" + joueur +
+                ", prochain_joueur=" + prochain_joueur +
+                '}';
     }
 
 }

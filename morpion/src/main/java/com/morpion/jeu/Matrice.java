@@ -2,7 +2,7 @@ package com.morpion.jeu;
 
 import java.util.ArrayList;
 
-public class Matrice {
+public class Matrice implements Cloneable {
     
     public ArrayList<ArrayList<Player_value>> matrice = new ArrayList<>(); 
 
@@ -26,5 +26,20 @@ public class Matrice {
         ArrayList<Player_value> vecteur = matrice.get(x);
         vecteur.set(y, joueur);
         matrice.set(x, vecteur);
+    }
+
+    @Override
+    public Matrice clone() throws CloneNotSupportedException {
+        try {
+            Matrice cloned = (Matrice) super.clone();
+            cloned.matrice = new ArrayList<>();
+            for (ArrayList<Player_value> row : this.matrice) {
+                ArrayList<Player_value> clonedRow = new ArrayList<>(row);
+                cloned.matrice.add(clonedRow);
+            }
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

@@ -18,9 +18,21 @@ public class Plateau implements Cloneable {
             //is_IA_player_two = IA2;
         }
 
+        private Plateau(Matrice mat,int taille, boolean IA1, boolean IA2){
+            this.taille_jeu = taille;
+            try {
+                this.plateau = mat.clone();
+            } catch (CloneNotSupportedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                throw new RuntimeException(e.toString());
+            }
+        }
+
         public int getTaille(){
             return this.taille_jeu;
         }
+        
 
         public boolean nouveau_coup(int x, int y, Player_value joueur){
             if (plateau.get(x, y) == Player_value.noPlayer){
@@ -132,16 +144,51 @@ public class Plateau implements Cloneable {
     }
 
     @Override
-    public Plateau clone() {
-        try {
-            return (Plateau) super.clone();
-        } catch (CloneNotSupportedException e) {
-            // Si la classe ne supporte pas le clonage, une exception sera levée.
-            e.printStackTrace();
-            return null;
+    public Plateau clone() throws CloneNotSupportedException {
+        return new Plateau(this.getPlateau(), this.getTaille(), false, false);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < taille_jeu; i++) {
+            for (int j = 0; j < taille_jeu; j++) {
+                sb.append(plateau.get(i, j)).append(" ");
+            }
+            sb.append("\n");
         }
+        return sb.toString();
     }
 
 
+
+
+    /**
+     * @return Matrice return the plateau
+     */
+    public Matrice getPlateau() {
+        return plateau;
+    }
+
+    /**
+     * @param plateau the plateau to set
+     */
+    public void setPlateau(Matrice plateau) {
+        this.plateau = plateau;
+    }
+
+    /**
+     * @return int return the taille_jeu
+     */
+    public int getTaille_jeu() {
+        return taille_jeu;
+    }
+
+    /**
+     * @param taille_jeu the taille_jeu to set
+     */
+    public void setTaille_jeu(int taille_jeu) {
+        this.taille_jeu = taille_jeu;
+    }
 
 }

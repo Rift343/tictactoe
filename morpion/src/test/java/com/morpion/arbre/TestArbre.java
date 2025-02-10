@@ -1,6 +1,8 @@
 package com.morpion.arbre;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import com.morpion.jeu.Plateau;
+import com.morpion.jeu.Player_value;
 
 
 public class TestArbre {
@@ -8,6 +10,7 @@ public class TestArbre {
 
     @Test
     public void test(){
-        assertEquals(5, 5);
+        Plateau plateau_test = new Plateau(3, true, true);
+        Arbre arbre_test = new Arbre(plateau_test, Player_value.playerOne);        
     }
 }
