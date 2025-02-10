@@ -9,7 +9,7 @@ public class Plateau implements Cloneable {
         //private boolean is_IA_player_one;
         //private boolean is_IA_player_two;
         private int taille_jeu;
-        Player_value gagnant = Player_value.noPlayer;//Gagant
+        public Player_value gagnant = Player_value.noPlayer;//Gagant
 
         public Plateau(int taille, boolean IA1, boolean IA2){
             this.taille_jeu = taille;
@@ -44,19 +44,32 @@ public class Plateau implements Cloneable {
             
         }
 
-    private void isWin() {
+    public void isWin() {
         int taille = this.taille_jeu;
         check_ligne(taille);
         //Si on a trouver un gagnant, on économise du temps
         if (this.gagnant != Player_value.noPlayer) {
+            System.out.println("ligne");
+            System.out.println(this.gagnant);
+            System.out.println(this.toString());
+            
             return;
         }
         check_colonne(taille);
         //même chose que précedement
         if (this.gagnant != Player_value.noPlayer) {
+            System.out.println("colonne");
+            System.out.println(this.gagnant);
+            System.out.println(this.toString());
             return;
         }
         check_diagonale(taille);
+        if (this.gagnant != Player_value.noPlayer) {
+            System.out.println("diag");
+            System.out.println(this.gagnant);
+            System.out.println(this.toString());
+            return;
+        }    
     }
 
     private void check_ligne(int taille) {
@@ -102,7 +115,7 @@ public class Plateau implements Cloneable {
         boolean conflit =false;
         if (joueur != Player_value.noPlayer) {
 
-            for (int i = 1; i < taille && conflit == true; i++) {
+            for (int i = 1; i < taille && conflit == false; i++) {
                 ArrayList<Player_value> ligneSuivante = this.plateau.matrice.get(i);
                 Player_value joueurCase = ligneSuivante.get(i);
                 if (joueurCase != Player_value.noPlayer && joueurCase == joueur) {
@@ -122,7 +135,7 @@ public class Plateau implements Cloneable {
         conflit =false;
         if (joueur != Player_value.noPlayer) {
 
-            for (int i = 1; i < taille && conflit == true; i++) {
+            for (int i = 1; i < taille && conflit == false; i++) {
                 ArrayList<Player_value> ligneSuivante = this.plateau.matrice.get(i);
                 Player_value joueurCase = ligneSuivante.get((taille-1)-i);
                 if (joueurCase != Player_value.noPlayer && joueurCase == joueur) {

@@ -22,7 +22,13 @@ public class Arbre {
         }
 
         this.sommet = base;
-        construction_arbre();
+        if (sommet.gagnant == Player_value.noPlayer) {
+            construction_arbre();
+        }
+
+            
+        
+        
 
         
         
