@@ -10,6 +10,7 @@ public class Plateau implements Cloneable {
         //private boolean is_IA_player_two;
         private int taille_jeu;
         public Player_value gagnant = Player_value.noPlayer;//Gagant
+        public boolean fini = false;
 
         public Plateau(int taille, boolean IA1, boolean IA2){
             this.taille_jeu = taille;
@@ -26,6 +27,24 @@ public class Plateau implements Cloneable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 throw new RuntimeException(e.toString());
+            }
+        }
+
+        public int note(Player_value j){
+            isWin();
+            if (fini) {
+                if (gagnant == j) {
+                    return 1;
+                } else {
+                    if (gagnant == Player_value.noPlayer) {
+                        return 2;
+                    } else {
+                        return 101;
+                    }
+                }
+            }
+            else{
+                return 2;
             }
         }
 
@@ -49,25 +68,32 @@ public class Plateau implements Cloneable {
         check_ligne(taille);
         //Si on a trouver un gagnant, on économise du temps
         if (this.gagnant != Player_value.noPlayer) {
-            System.out.println("ligne");
-            System.out.println(this.gagnant);
-            System.out.println(this.toString());
+            fini = true;
+            //System.out.println("ligne");
+            //System.out.println(this.gagnant);
+            //System.out.println(this.toString());
             
             return;
         }
         check_colonne(taille);
         //même chose que précedement
         if (this.gagnant != Player_value.noPlayer) {
-            System.out.println("colonne");
-            System.out.println(this.gagnant);
-            System.out.println(this.toString());
+            fini = true;
+            //System.out.println("colonne");
+            //System.out.println(this.gagnant);
+            //System.out.println(this.toString());
             return;
         }
         check_diagonale(taille);
         if (this.gagnant != Player_value.noPlayer) {
-            System.out.println("diag");
-            System.out.println(this.gagnant);
-            System.out.println(this.toString());
+            fini = true;
+            //System.out.println("diag");
+            //System.out.println(this.gagnant);
+            //System.out.println(this.toString());
+            return;
+        }
+        if (match_null()) {
+            fini=true;
             return;
         }    
     }
@@ -156,6 +182,18 @@ public class Plateau implements Cloneable {
         }
     }
 
+    private boolean match_null(){
+        for (int i = 0; i < this.taille_jeu; i++) {
+            for (int y = 0; y < this.taille_jeu; y++) {
+                if (this.plateau.get(i, y)==Player_value.noPlayer) {
+                    return true;
+                }
+            
+            }   
+        }
+        return true;
+    }
+
     @Override
     public Plateau clone() throws CloneNotSupportedException {
         return new Plateau(this.getPlateau(), this.getTaille(), false, false);
@@ -176,30 +214,22 @@ public class Plateau implements Cloneable {
 
 
 
-    /**
-     * @return Matrice return the plateau
-     */
+    
     public Matrice getPlateau() {
         return plateau;
     }
 
-    /**
-     * @param plateau the plateau to set
-     */
+    
     public void setPlateau(Matrice plateau) {
         this.plateau = plateau;
     }
 
-    /**
-     * @return int return the taille_jeu
-     */
+    
     public int getTaille_jeu() {
         return taille_jeu;
     }
 
-    /**
-     * @param taille_jeu the taille_jeu to set
-     */
+   
     public void setTaille_jeu(int taille_jeu) {
         this.taille_jeu = taille_jeu;
     }

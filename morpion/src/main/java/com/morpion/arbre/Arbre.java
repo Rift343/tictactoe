@@ -25,16 +25,38 @@ public class Arbre {
         if (sommet.gagnant == Player_value.noPlayer) {
             construction_arbre();
         }
-
-            
-        
-        
-
-        
-        
     }
 
+    public Plateau prochain_cout(){
+            Arbre min = possibilite.get(0);
+            int note_min = min.note();
+            for (int i = 0; i < possibilite.size(); i++) {
+                Arbre comparable = possibilite.get(i);
+                int new_note = comparable.note();
+                if (note_min > new_note) {
+                    note_min = new_note;
+                    min = comparable;
+                }
+            }
+            this.sommet = min.sommet;
+            construction_arbre();
+            return min.sommet;
+                    
+        }
+            
+                
+            
+    private int note() {
+        int note = this.sommet.note(this.joueur);
+        for (int i = 1; i < possibilite.size(); i++) {
+            note = note + possibilite.get(i).note();
+        }
+        return note;
+
+    }
+            
     private void construction_arbre(){
+        this.possibilite = new ArrayList<>();
         int taille = this.sommet.getTaille();
         for (int x = 0; x < taille; x++) {
             for (int y = 0; y < taille; y++) {
@@ -56,8 +78,13 @@ public class Arbre {
 
     }
 
-    public Object getSommet() {
+    public Plateau getSommet() {
         return this.sommet;
+    }
+
+    public void setSommet(Plateau p){
+        this.sommet = p;
+        this.construction_arbre();
     }
 
     public ArrayList<Arbre> getPossibilite() {
