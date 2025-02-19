@@ -186,7 +186,7 @@ public class Plateau implements Cloneable {
         for (int i = 0; i < this.taille_jeu; i++) {
             for (int y = 0; y < this.taille_jeu; y++) {
                 if (this.plateau.get(i, y)==Player_value.noPlayer) {
-                    return true;
+                    return false;
                 }
             
             }   
@@ -197,17 +197,29 @@ public class Plateau implements Cloneable {
     @Override
     public Plateau clone() throws CloneNotSupportedException {
         return new Plateau(this.getPlateau(), this.getTaille(), false, false);
-    }
+        }
 
-    @Override
-    public String toString() {
+        @Override
+        public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < taille_jeu; i++) {
+            sb.append(String.valueOf(i));
+        }
+
+        sb.append("\n");
+
+        for (int i = 0; i < taille_jeu; i++) {
+            sb.append(i).append(" ");
             for (int j = 0; j < taille_jeu; j++) {
-                sb.append(plateau.get(i, j)).append(" ");
+            sb.append(plateau.get(i, j)).append(" ");
             }
             sb.append("\n");
         }
+        sb.append("  ");
+        for (int j = 0; j < taille_jeu; j++) {
+            sb.append(j).append(" ");
+        }
+        sb.append("\n");
         return sb.toString();
     }
 
@@ -232,6 +244,16 @@ public class Plateau implements Cloneable {
    
     public void setTaille_jeu(int taille_jeu) {
         this.taille_jeu = taille_jeu;
+    }
+
+    public boolean  makeMove(int x, int y, Player_value player) {
+        if (nouveau_coup(x, y, player)) {
+            System.out.println("Move made at (" + x + ", " + y + ") by " + player);
+            return true;
+        } else {
+            System.out.println("Invalid move at (" + x + ", " + y + ")");
+            return false;
+        }
     }
 
 }

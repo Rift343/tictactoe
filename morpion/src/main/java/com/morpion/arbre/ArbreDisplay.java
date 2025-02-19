@@ -21,7 +21,7 @@ public class ArbreDisplay extends JPanel {
     private void drawArbre(Graphics g, Arbre arbre, int x, int y, int xOffset) {
         if (arbre == null) return;
 
-        g.drawString(arbre.getSommet().toString(), x, y);
+        //g.drawString(arbre.getSommet().toString(), x, y);
 
         ArrayList<Arbre> possibilites = arbre.getPossibilite();
         int childY = y + 50;
